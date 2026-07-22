@@ -13,16 +13,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Install dependencies
         run: npm install
-
-      - name: Build roblox-ts compiler
-        run: |
-          cd roblox-ts-compiler
-          npm install
-          npm run build
 
       - name: Compile TypeScript to Luau
         run: node roblox-ts-compiler/out/CLI/cli.js
