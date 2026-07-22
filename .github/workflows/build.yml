@@ -24,13 +24,18 @@ jobs:
       - name: Compile TypeScript to Luau
         run: rbxtsc
 
-      - name: Download Rojo binary
+      - name: Download Rojo (Linux)
         run: |
-          curl -L -o rojo.zip https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux.zip
-          unzip rojo.zip
-          chmod +x rojo
+          curl -L -o rojo-linux.zip https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip
+          unzip rojo-linux.zip -d rojo-linux
+          chmod +x rojo-linux/rojo
 
-      - name: Create start script
+      - name: Download Rojo (Windows)
+        run: |
+          curl -L -o rojo-windows.zip https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-windows-x86_64.zip
+          unzip rojo-windows.zip -d rojo-windows
+
+      - name: Create start script (Linux)
         run: |
           cat > start.sh << 'EOF'
           #!/bin/bash
@@ -39,9 +44,22 @@ jobs:
           echo "Iniciando Rojo server..."
           echo "Abra o Roblox Studio e clique Connect no plugin Rojo"
           echo ""
-          ./rojo serve
+          ./rojo-linux/rojo serve
           EOF
           chmod +x start.sh
+
+      - name: Create start script (Windows)
+        run: |
+          cat > start.bat << 'EOF'
+          @echo off
+          echo === My Roblox Game ===
+          echo.
+          echo Iniciando Rojo server...
+          echo Abra o Roblox Studio e clique Connect no plugin Rojo
+          echo.
+          rojo-windows\rojo.exe serve
+          pause
+          EOF
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -49,7 +67,9 @@ jobs:
           name: game-build
           path: |
             out/
-            rojo
+            rojo-linux/
+            rojo-windows/
             start.sh
+            start.bat
             default.project.json
           retention-days: 30
