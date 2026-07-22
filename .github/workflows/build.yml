@@ -18,11 +18,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install roblox-ts
-        run: npm install -g roblox-ts
+      - name: Build roblox-ts compiler
+        run: |
+          cd roblox-ts-compiler
+          npm install
+          npm run build
 
       - name: Compile TypeScript to Luau
-        run: rbxtsc
+        run: node roblox-ts-compiler/out/CLI/cli.js
 
       - name: Download Rojo (Linux)
         run: |

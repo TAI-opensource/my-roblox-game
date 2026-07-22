@@ -1,18 +1,12 @@
-import { Players } from "@rbxts/services";
-import { getOrCreatePlayerData, removePlayerData } from "../shared/PlayerData";
+import { Players, ReplicatedStorage } from "@rbxts/services";
+import { initGameManager } from "./gameManager";
+
+const events = new Instance("RemoteEvent");
+events.Name = "PixelQuestSync";
+events.Parent = ReplicatedStorage;
+
+print("[Pixel Quest] Servidor iniciado!");
 
 Players.PlayerAdded.Connect((player) => {
-	const data = getOrCreatePlayerData(player);
-	print(`[Server] ${data.name} entrou no jogo! Cash: ${data.cash}`);
-
-	player.CharacterAdded.Connect((character) => {
-		print(`[Server] ${data.name} spawnou!`);
-	});
+    initGameManager(player, events);
 });
-
-Players.PlayerRemoving.Connect((player) => {
-	removePlayerData(player.UserId);
-	print(`[Server] ${player.Name} saiu do jogo.`);
-});
-
-print("[Server] Game Server iniciado!");

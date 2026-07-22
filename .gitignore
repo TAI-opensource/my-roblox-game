@@ -1,4 +1,5 @@
 node_modules/
+roblox-ts-compiler/node_modules/
 out/
 *.tsbuildinfo
 .DS_Store
