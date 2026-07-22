@@ -67,6 +67,7 @@ jobs:
           name: game-build
           path: |
             out/
+            include/
             rojo-linux/
             rojo-windows/
             start.sh
