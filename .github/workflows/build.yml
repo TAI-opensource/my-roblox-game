@@ -1,0 +1,32 @@
+name: Build Game
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install roblox-ts
+        run: npm install -g roblox-ts
+
+      - name: Compile TypeScript to Luau
+        run: rbxtsc
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: game-build
+          path: out/
+          retention-days: 30
