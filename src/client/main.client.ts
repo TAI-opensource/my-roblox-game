@@ -75,6 +75,7 @@ function generateMap(): TileType[][] {
                 else row.push(TileType.Grass);
             }
         }
+        map.push(row);
     }
     return map;
 }
@@ -133,9 +134,16 @@ syncEvent.OnClientEvent.Connect((msg: { type: string; data: unknown }) => {
         }
         updateCamera(getPlayerPosition().x, getPlayerPosition().y);
     } else if (msg.type === "entityUpdate" && msg.data !== undefined) {
-        const data = msg.data as { id: string; position: { x: number; y: number } };
-        const frame = world.FindFirstChild("Entity_" + data.id) as Frame;
-        if (frame !== undefined) frame.Position = UDim2.fromOffset(data.position.x - 12, data.position.y - 12);
+        const data = msg.data as { entities: Array<{ id: string; position: { x: number; y: number } }> };
+        if (data.entities !== undefined) {
+            for (let ei = 0; ei < data.entities.size(); ei++) {
+                const ent = data.entities[ei];
+                const frame = world.FindFirstChild("Entity_" + ent.id) as Frame;
+                if (frame !== undefined) {
+                    frame.Position = UDim2.fromOffset(ent.position.x * TILE_SIZE + 4, ent.position.y * TILE_SIZE + 4);
+                }
+            }
+        }
     } else if (msg.type === "combatResult" && msg.data !== undefined) {
         const data = msg.data as { message?: string };
         if (data.message !== undefined) print(data.message);
