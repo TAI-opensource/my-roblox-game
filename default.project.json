@@ -23,12 +23,6 @@
         "$path": "out/server"
       }
     },
-    "StarterGui": {
-      "$className": "StarterGui",
-      "UI": {
-        "$path": "out/client/ui"
-      }
-    },
     "StarterPlayer": {
       "$className": "StarterPlayer",
       "StarterPlayerScripts": {
