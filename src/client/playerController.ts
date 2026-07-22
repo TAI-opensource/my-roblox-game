@@ -10,7 +10,7 @@ let entityFrames = new Map<string, Frame>();
 let keysPressed = new Map<Enum.KeyCode, boolean>();
 let playerLabel: TextLabel | undefined;
 
-const HALF = 12;
+const HALF = 14;
 
 function passable(t: TileType): boolean {
     return t === TileType.Grass || t === TileType.Path || t === TileType.Door || t === TileType.Flower || t === TileType.Sand || t === TileType.Bridge;

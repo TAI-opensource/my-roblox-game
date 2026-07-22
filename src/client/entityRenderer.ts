@@ -48,9 +48,10 @@ export function createPlayerFrame(world: Frame): Frame {
 
 function createEntityFrame(entity: EntityDef): Frame {
   const frame = new Instance("Frame");
-  frame.Size = UDim2.fromOffset(24, 24);
+  frame.Size = UDim2.fromOffset(28, 28);
   frame.BackgroundColor3 = entity.color;
   frame.BorderSizePixel = 0;
+  frame.ZIndex = 10;
   frame.Position = UDim2.fromOffset(
     entity.position.x * TILE_SIZE + 4,
     entity.position.y * TILE_SIZE + 4,
