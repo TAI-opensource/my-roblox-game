@@ -24,9 +24,32 @@ jobs:
       - name: Compile TypeScript to Luau
         run: rbxtsc
 
+      - name: Download Rojo binary
+        run: |
+          curl -L -o rojo.zip https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux.zip
+          unzip rojo.zip
+          chmod +x rojo
+
+      - name: Create start script
+        run: |
+          cat > start.sh << 'EOF'
+          #!/bin/bash
+          echo "=== My Roblox Game ==="
+          echo ""
+          echo "Iniciando Rojo server..."
+          echo "Abra o Roblox Studio e clique Connect no plugin Rojo"
+          echo ""
+          ./rojo serve
+          EOF
+          chmod +x start.sh
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: game-build
-          path: out/
+          path: |
+            out/
+            rojo
+            start.sh
+            default.project.json
           retention-days: 30

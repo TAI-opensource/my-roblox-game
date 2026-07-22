@@ -4,106 +4,34 @@ Jogo feito com roblox-ts (TypeScript → Luau).
 
 ---
 
-## Como Iniciar (Windows)
+## Como Iniciar (Sem Console)
 
-### Pré-requisitos
+### Passo 1: Baixar o build pronto
 
-- [Node.js](https://nodejs.org/) (versão 18+)
-- [Git Bash](https://git-scm.com/downloads) (já vem com o Git)
-- [Roblox Studio](https://www.roblox.com/create/) com o plugin [Rojo](https://create.roblox.com/store/asset/6320945503/Rojo) instalado
-
----
-
-### Passo 1: Baixar o projeto
-
-1. Abra https://github.com/TAI-opensource/my-roblox-game
-2. Clique no botão verde **<> Code**
-3. Clique em **Download ZIP**
-4. Descompacte na Área de Trabalho
-5. Você terá uma pasta chamada `my-roblox-game-master`
+1. Abra https://github.com/TAI-opensource/my-roblox-game/actions
+2. Clique em **"Build Game"** (ícone verde ✓)
+3. Na parte de baixo, clique em **"game-build"**
+4. Clique em **"Download artifact"**
+5. Descompacte na Área de Trabalho
 
 ---
 
-### Passo 2: Instalar dependências
+### Passo 2: Iniciar o Rojo
 
-1. Abra a pasta `my-roblox-game-master`
-2. Clique com o botão direito em espaço vazio → **Open Git Bash here**
-3. Cole e aperte Enter:
-
-```bash
-npm install
-```
-
-4. Aguarde terminar (vai baixar uns pacotes)
-
----
-
-### Passo 3: Instalar roblox-ts
-
-No **mesmo terminal**, cole:
-
-```bash
-npm install -g roblox-ts
-```
-
----
-
-### Passo 4: Baixar o Rojo CLI
-
-O Rojo que baixa pelo npm está descontinuado. Precisa baixar o correto:
-
-1. Abra https://github.com/rojo-rbx/rojo/releases
-2. Baixe o arquivo `rojo-x.x.x-windows.zip`
-3. Descompacte em algum lugar (ex: `C:\rojo\`)
-4. Copie o caminho da pasta onde descompactou
-
-No **mesmo terminal**, cole (substitua pelo caminho real):
-
-```bash
-export PATH="$PATH:/c/Users/usuario/Desktop/rojo"
-```
-
-> **Ou** adicione manualmente a pasta do Rojo ao PATH do Windows:
-> 1. Pesquise "Variáveis de Ambiente" no Windows
-> 2. Clique em "Variáveis de Ambiente"
-> 3. Em "Variáveis do sistema", selecione "Path"
-> 4. Clique em "Editar" → "Novo"
-> 5. Cole o caminho da pasta do Rojo
-> 6. OK em tudo
-
----
-
-### Passo 5: Compilar o jogo
-
-No terminal dentro da pasta `my-roblox-game-master`, cole:
-
-```bash
-rbxtsc -w
-```
-
-> Vai aparecer: `Found 0 errors. Watching for file changes.`
-> **Deixe este terminal aberto!**
-
----
-
-### Passo 6: Iniciar o servidor Rojo
-
-**IMPORTANTE:** Abra um **SEGUNDO** terminal **DENTRO da mesma pasta**:
-
-1. Volte para a pasta `my-roblox-game-master`
+1. Abra a pasta descompactada
 2. Clique com o botão direito → **Open Git Bash here**
 3. Cole:
 
 ```bash
-rojo serve
+./rojo serve
 ```
 
 > Vai aparecer: `Serving on http://localhost:34872`
-> **Deixe este terminal aberto também!**
+> **Deixe o terminal aberto!**
 
 ---
 
-### Passo 7: Conectar no Roblox Studio
+### Passo 3: Conectar no Roblox Studio
 
 1. Abra o **Roblox Studio**
 2. Abra seu jogo (Place)
@@ -114,28 +42,52 @@ Pronto! O jogo vai aparecer no Studio.
 
 ---
 
-## Editando o Código
+## Como Editar o Código
 
-1. Abra os arquivos `.ts` na pasta `src/` com qualquer editor (VSCode, Notepad++, etc.)
-2. Salve o arquivo
-3. O terminal do `rbxtsc -w` vai recompilar automaticamente
-4. No Studio, o Rojo atualiza o jogo
+### Opção 1: Pelo GitHub (sem console)
+
+1. Abra https://github.com/TAI-opensource/my-roblox-game
+2. Clique em **src/** → escolha o arquivo `.ts`
+3. Clique no ícone ✏️ para editar
+4. Faça suas mudanças
+5. Clique em **Commit changes**
+6. Vá em **Actions** → aguarde compilar
+7. Baixe o novo **game-build**
+8. No Studio, o Rojo atualiza automaticamente
+
+### Opção 2: No PC (com console)
+
+1. Clone o repositório
+2. Abra o Git Bash na pasta do projeto
+3. Rode:
+
+```bash
+npm install
+npm install -g roblox-ts
+rbxtsc -w
+```
+
+4. Em outro terminal:
+
+```bash
+./rojo serve
+```
 
 ---
 
 ## Estrutura do Projeto
 
 ```
-my-roblox-game-master/
-├── src/
-│   ├── server/          ← Scripts do servidor (main.server.ts)
-│   ├── client/          ← Scripts do cliente (main.client.ts)
-│   └── shared/          ← Código compartilhado (PlayerData.ts)
-├── out/                 ← Código compilado (gerado pelo rbxtsc)
-├── include/             ← Runtime files do roblox-ts
-├── default.project.json ← Configuração do Rojo
-├── tsconfig.json        ← Configuração do TypeScript
-└── package.json         ← Dependências
+src/
+├── server/          ← Scripts do servidor (main.server.ts)
+├── client/          ← Scripts do cliente (main.client.ts)
+└── shared/          ← Código compartilhado (PlayerData.ts)
+
+out/                 ← Código compilado (gerado pelo build)
+include/             ← Runtime files do roblox-ts
+default.project.json ← Configuração do Rojo
+tsconfig.json        ← Configuração do TypeScript
+package.json         ← Dependências
 ```
 
 ---
@@ -152,15 +104,13 @@ my-roblox-game-master/
 
 ## Solução de Problemas
 
-### "Rojo server not found"
-- Verifique se o `rojo serve` está rodando no terminal
-- Verifique se está na pasta certa do projeto
+### "Couldn't connect to the Rojo server"
+- Verifique se o terminal está rodando `./rojo serve`
+- Verifique se está dentro da pasta do projeto
 
-### "npm: command not found"
-- Instale o Node.js em https://nodejs.org/
-
-### "rbxtsc: command not found"
-- Rode: `npm install -g roblox-ts`
+### "Rojo serve" não funciona
+- Certifique-se de baixou o **game-build** (não o código fonte)
+- O binário do Rojo já vem no build
 
 ### Rojo não conecta no Studio
 - Verifique se o plugin Rojo está instalado
